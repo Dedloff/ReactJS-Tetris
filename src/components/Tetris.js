@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { createStage, checkCollision } from '../gameHelpers';
-import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
+import { createStage, checkCollision } from "../gameHelpers";
+import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
 
 // Custom Hooks
-import { useInterval } from '../hooks/useInterval';
-import { usePlayer } from '../hooks/usePlayer';
-import { useStage } from '../hooks/useStage';
-import { useGameStatus } from '../hooks/useGameStatus';
+import { useInterval } from "../hooks/useInterval";
+import { usePlayer } from "../hooks/usePlayer";
+import { useStage } from "../hooks/useStage";
+import { useGameStatus } from "../hooks/useGameStatus";
 
 // Components
-import Stage from './Stage';
-import Display from './Display';
-import StartButton from './StartButton';
+import Stage from "./Stage";
+import Display from "./Display";
+import StartButton from "./StartButton";
 
 const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
@@ -20,16 +20,15 @@ const Tetris = () => {
 
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
-  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
-    rowsCleared
-  );
+  const [score, setScore, rows, setRows, level, setLevel] =
+    useGameStatus(rowsCleared);
 
-  console.log('re-render');
+  console.log("re-render");
 
-  const movePlayer = dir => {
-        //added a collision check to movePlayer
+  const movePlayer = (dir) => {
+    //added a collision check to movePlayer
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
-            //if i'm not colliding with anything actually update player position or do the move
+      //if i'm not colliding with anything actually update player position or do the move
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
@@ -57,7 +56,7 @@ const Tetris = () => {
   const drop = () => {
     // Increase level when player has cleared 10 rows
     if (rows > (level + 1) * 10) {
-      setLevel(prev => prev + 1);
+      setLevel((prev) => prev + 1);
       // Also increase speed
       setDropTime(1000 / (level + 1) + 200);
     }
@@ -67,7 +66,7 @@ const Tetris = () => {
     } else {
       // Game over!
       if (player.pos.y < 1) {
-        console.log('GAME OVER!');
+        console.log("GAME OVER!");
         setGameOver(true);
         setDropTime(null);
       }
@@ -77,7 +76,7 @@ const Tetris = () => {
 
   const dropPlayer = () => {
     // We don't need to run the interval when we use the arrow down to
-    // move the tetromino downwards. So deactivate it for now.
+    // move the tetromino downwards - So deactivate it for now.
     setDropTime(null);
     drop();
   };
@@ -88,6 +87,7 @@ const Tetris = () => {
     drop();
   }, dropTime);
 
+  //Mappng keycodes to movement for left up and right arrow
   const move = ({ keyCode }) => {
     if (!gameOver) {
       if (keyCode === 37) {
@@ -106,7 +106,7 @@ const Tetris = () => {
     <StyledTetrisWrapper
       role="button"
       tabIndex="0"
-      onKeyDown={e => move(e)}
+      onKeyDown={(e) => move(e)}
       onKeyUp={keyUp}
     >
       <StyledTetris>

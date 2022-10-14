@@ -2,10 +2,14 @@ export const STAGE_WIDTH = 12;
 export const STAGE_HEIGHT = 20;
 
 export const createStage = () =>
-  Array.from(Array(STAGE_HEIGHT), () => Array(STAGE_WIDTH).fill([0, 'clear']));
+  Array.from(Array(STAGE_HEIGHT), () => Array(STAGE_WIDTH).fill([0, "clear"]));
+
+//The Stage will be the game stage, a multi-dimensional array that represents rows and columns
+
+//This function creates a multi-dimensional array that represents a grid 1. Creating an empty array of the stage height, and then to fill it up 0 and 'clear'.
 
 export const checkCollision = (player, stage, { x: moveX, y: moveY }) => {
-  // THIS IS SLOWER!!!
+  // This works but is slower?
   // return player.tetromino.some((row, y) =>
   //   row.some((cell, x) => {
   //     if (cell !== 0) {
@@ -33,7 +37,7 @@ export const checkCollision = (player, stage, { x: moveX, y: moveY }) => {
           !stage[y + player.pos.y + moveY][x + player.pos.x + moveX] ||
           // 4. Check that the cell wer'e moving to isn't set to clear
           stage[y + player.pos.y + moveY][x + player.pos.x + moveX][1] !==
-            'clear'
+            "clear"
         ) {
           return true;
         }
